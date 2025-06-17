@@ -6,19 +6,17 @@ using System.Threading.Tasks;
 
 namespace projectTheInvestigationGame
 {
-    internal class Agent
+    internal class Player
     {
         public int Id { get; set; }
-        public string Rank { get; set; }
-        public List<Sensor> ListSentorsW;
-        public Dictionary<string, int> DictsensorW;
-        public Agent(int id,string rank)
+        public List<Sensor> ListsensorP{ get; set; }
+        public Dictionary<string, int> DictsensorW { get; set; }
+        public Player(int id)
         {
             this.Id = id;
-            this.Rank = rank;
-            this.ListSentorsW = new List<Sensor>();
+            this.ListsensorP = new List<Sensor>();
             this.DictsensorW = new Dictionary<string, int>();
-            
+
         }
     }
 }
