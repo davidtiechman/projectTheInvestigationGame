@@ -95,10 +95,18 @@ namespace projectTheInvestigationGame
             }
             string TypeSuccess = (count == agent.ListSentorsW.Count) ? "Very nice" : (count >= 1 ? "Beautiful" : "Oops");
             string SuccessStatus = (count == agent.ListSentorsW.Count) ? "Complete success" : (count >= 1 ? "Partial success" : "Failed to succeed");
+            string Exposed = (count == agent.ListSentorsW.Count) ? "The agent was exposed." : "The agent has not yet been revealed.";
             Console.WriteLine($"{TypeSuccess}, you guessded it. {count}/{agent.ListSentorsW.Count}");
             Console.WriteLine($"The success status is {SuccessStatus}");
+            if (count == agent.ListSentorsW.Count)
+                Console.ForegroundColor = ConsoleColor.Green;
+            else
+                Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine(Exposed);
+            Console.ResetColor();  // מחזיר את הצבע הרגיל של הקונסול
+
         }
-        
+
     }
     
 
