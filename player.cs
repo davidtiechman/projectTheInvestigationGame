@@ -6,12 +6,14 @@ using System.Threading.Tasks;
 
 namespace projectTheInvestigationGame
 {
-    internal class Gammer
+    internal class Player
     {
         public int Id;
-        public List<Sansor> ListsansorP = new List<Sansor>();
-        public Gammer()
+        public List<Sensor> ListsensorP = new List<Sensor>();
+        Dictionary<string, int> DictsensorW;
+        public Player(int id)
         {
+            this.Id = id;
 
         }
     }
