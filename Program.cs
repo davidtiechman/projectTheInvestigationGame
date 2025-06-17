@@ -4,10 +4,9 @@
     {
         static void Main(string[] args)
         {
-            GameManiger gameManiger = new GameManiger();
-            gameManiger.AgentInitialization(3);
-            gameManiger.Guessing();
-
+            //Menu menu = new Menu();
+            GameManager gameManager = new GameManager();
+            gameManager.Step1();
 
         }
     }

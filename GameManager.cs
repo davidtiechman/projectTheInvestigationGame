@@ -6,19 +6,31 @@ using System.Threading.Tasks;
 
 namespace projectTheInvestigationGame
 {
-    internal class GameManiger
+    internal class GameManager
     {
         Random random = new Random();
         string[] sensors = new string[] { "basic", "audio", "video" };
-        Agent agent = new Agent(1);
-        Player player = new Player(1);
-        public void AgentInitialization(int sum)
+        public void Step1()
+        {
+            Agent agent = new Agent(1,"");
+            Player player = new Player(1);
+            AgentInitialization(agent,2);
+            bool succes = false;
+            while (!succes)
+              succes =  Guessing(agent, player, 2);
+        }
+        //public void Step2(Agent agent, int sum,Player player)
+        //{
+            //AgentIn itialization(agent, sum);
+            //Guessing(agent,player, sum);
+        //}
+        public void AgentInitialization(Agent agent,int sum)
         {
             for (int i = 0; i < sum; i++)
             {
                 Sensor sensor = new Sensor(sensors[random.Next(0, 3)]);
 
-                this.agent.ListSentorsW.Add(sensor);
+                agent.ListSentorsW.Add(sensor);
                 
             }
             agent.DictsensorW = ConvertArrtoDict(agent.ListSentorsW);
@@ -28,24 +40,21 @@ namespace projectTheInvestigationGame
             }
         }
 
-        public void Guessing()
+        public bool Guessing(Agent agent,Player player, int sum)
         {
-            
-            Console.WriteLine("Please select an option (1-3)");
-            Console.WriteLine("Please enter an option 1");
-            string option1 = Console.ReadLine();
-            player.ListsensorP.Add(CheckOption(option1));
-            Console.WriteLine("Please enter an option 2");
-            string option2 = Console.ReadLine();
-            player.ListsensorP.Add(CheckOption(option2));
-            Console.WriteLine("Please enter an option 3");
-            string option3 = Console.ReadLine();
-            player.ListsensorP.Add(CheckOption(option3));
-            player.DictsensorW = ConvertArrtoDict(player.ListsensorP);
-            Console.WriteLine(player.ListsensorP[0].Type);
-            Console.WriteLine(player.ListsensorP[1].Type);
-            Console.WriteLine(player.ListsensorP[2].Type);
-            PrintResult();
+            bool success = false;
+
+            Console.WriteLine($"Please select an option (1-{sum})");
+            int option = 0;
+            for (int i = 0; i < sum; i++)
+            {
+                option++;
+                Console.WriteLine($"Please enter an option {option}");
+                string inputoption = Console.ReadLine();
+                player.ListsensorP.Add(CheckOption(inputoption));
+            }
+            success = PrintResult(agent, player);
+            return success;
         }
         public Sensor CheckOption(string num)
         {
@@ -83,8 +92,9 @@ namespace projectTheInvestigationGame
             }
             return newdict;
         }
-        public void PrintResult()
+        public bool PrintResult(Agent agent,Player player)
         {
+            bool success = false;
             int count = 0;
             foreach (Sensor s in player.ListsensorP)
             {
@@ -99,12 +109,20 @@ namespace projectTheInvestigationGame
             Console.WriteLine($"{TypeSuccess}, you guessded it. {count}/{agent.ListSentorsW.Count}");
             Console.WriteLine($"The success status is {SuccessStatus}");
             if (count == agent.ListSentorsW.Count)
+            {
                 Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine(Exposed);
+                Console.ResetColor();  // מחזיר את הצבע הרגיל של הקונסול
+                success = true;
+                //Step2(agent, 3, player);
+            }
             else
+            {
                 Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine(Exposed);
-            Console.ResetColor();  // מחזיר את הצבע הרגיל של הקונסול
-
+                Console.WriteLine(Exposed);
+                Console.ResetColor();  // מחזיר את הצבע הרגיל של הקונסול
+            }
+            return success;
         }
 
     }
