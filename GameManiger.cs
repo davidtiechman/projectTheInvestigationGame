@@ -46,9 +46,6 @@ namespace projectTheInvestigationGame
             Console.WriteLine(player.ListsensorP[1].Type);
             Console.WriteLine(player.ListsensorP[2].Type);
             PrintResult();
-            
-
-
         }
         public Sensor CheckOption(string num)
         {
@@ -96,7 +93,10 @@ namespace projectTheInvestigationGame
                     count++;
                 }
             }
-            Console.WriteLine($"{count}/{agent.ListSentorsW.Count}");
+            string TypeSuccess = (count == agent.ListSentorsW.Count) ? "Very nice" : (count >= 1 ? "Beautiful" : "Oops");
+            string SuccessStatus = (count == agent.ListSentorsW.Count) ? "Complete success" : (count >= 1 ? "Partial success" : "Failed to succeed");
+            Console.WriteLine($"{TypeSuccess}, you guessded it. {count}/{agent.ListSentorsW.Count}");
+            Console.WriteLine($"The success status is {SuccessStatus}");
         }
         
     }
