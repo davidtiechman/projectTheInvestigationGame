@@ -10,11 +10,15 @@ namespace projectTheInvestigationGame
     {
         public int Id { get; set; }
         public string Rank { get; set; }
-        public List<Sensor> ListSentorsW = new();
+        public List<Sensor> ListSentorsW;
         public Dictionary<string, int> DictsensorW;
         public Agent(int id)
         {
             this.Id = id;
+            this.Rank = "basic";
+            this.ListSentorsW = new List<Sensor>();
+            this.DictsensorW = new Dictionary<string, int>();
+            
         }
     }
 }

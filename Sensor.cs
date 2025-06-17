@@ -24,7 +24,7 @@ namespace projectTheInvestigationGame
             bool exist = false;
             foreach (string key in dictsensor.Keys)
             {
-                if (dictsensor.ContainsKey(this.Type) && dictsensor[Type] >0)
+                if (key == this.Type && dictsensor[key] >0)
                 {
                     dictsensor[key] -= 1;
                     exist = true;

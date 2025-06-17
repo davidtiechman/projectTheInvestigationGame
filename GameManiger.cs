@@ -5,16 +5,16 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace projectTheInvestigationGame
-{gi
+{
     internal class GameManiger
     {
         Random random = new Random();
         string[] sensors = new string[] { "basic", "audio", "video" };
         Agent agent = new Agent(1);
         Player player = new Player(1);
-        public void Step1()
+        public void AgentInitialization(int sum)
         {
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < sum; i++)
             {
                 Sensor sensor = new Sensor(sensors[random.Next(0, 3)]);
 
@@ -22,10 +22,10 @@ namespace projectTheInvestigationGame
                 
             }
             agent.DictsensorW = ConvertArrtoDict(agent.ListSentorsW);
-            Console.WriteLine(this.agent.ListSentorsW[0].Type);
-            Console.WriteLine(this.agent.ListSentorsW[1].Type);
-            Console.WriteLine(this.agent.ListSentorsW[2].Type);
-            Guessing();
+            foreach (Sensor s in agent.ListSentorsW)
+            {
+                Console.WriteLine(s.Type);
+            }
         }
 
         public void Guessing()
@@ -41,11 +41,13 @@ namespace projectTheInvestigationGame
             Console.WriteLine("Please enter an option 3");
             string option3 = Console.ReadLine();
             player.ListsensorP.Add(CheckOption(option3));
-            //player.ListsansorP.Add();
+            player.DictsensorW = ConvertArrtoDict(player.ListsensorP);
             Console.WriteLine(player.ListsensorP[0].Type);
             Console.WriteLine(player.ListsensorP[1].Type);
             Console.WriteLine(player.ListsensorP[2].Type);
-            //CompatibilityChecker(player, agent);
+            PrintResult();
+            
+
 
         }
         public Sensor CheckOption(string num)
@@ -66,31 +68,36 @@ namespace projectTheInvestigationGame
             Sensor sensor = new Sensor(option);
             return sensor;
         }
-        //public void CompatibilityChecker(Player player, Agent agent)
-        //{
-        //    //int count = 0;
-            //List<Sensor> newlist = agent.ListSentorsW.ToList();
-
-            //for (int i = 0; i < 3; i++)
-            //{
-                //if (player.ListsensorP[i].Activate(newlist) == true) { count++; }
-            //}  
-            
-            //Console.WriteLine(count);
-        //}
+        
         public Dictionary<string,int> ConvertArrtoDict(List<Sensor> listsensor) 
         {
             Dictionary<string, int> newdict = new Dictionary<string, int>();
-            foreach ( Sensor s in listsensor) 
+            foreach (Sensor s in listsensor)
             {
                 if (newdict.ContainsKey(s.Type))
+                {
                     newdict[s.Type]++;
-                newdict[s.Type] = 1;
+                }
+                else
+                {
+                    newdict[s.Type] = 1;
+
+                }
             }
             return newdict;
         }
-
-        
+        public void PrintResult()
+        {
+            int count = 0;
+            foreach (Sensor s in player.ListsensorP)
+            {
+                if (s.Activate(agent.DictsensorW) == true)
+                {
+                    count++;
+                }
+            }
+            Console.WriteLine($"{count}/{agent.ListSentorsW.Count}");
+        }
         
     }
     

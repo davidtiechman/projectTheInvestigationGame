@@ -8,12 +8,14 @@ namespace projectTheInvestigationGame
 {
     internal class Player
     {
-        public int Id;
-        public List<Sensor> ListsensorP = new List<Sensor>();
-        Dictionary<string, int> DictsensorW;
+        public int Id { get; set; }
+        public List<Sensor> ListsensorP{ get; set; }
+        public Dictionary<string, int> DictsensorW { get; set; }
         public Player(int id)
         {
             this.Id = id;
+            this.ListsensorP = new List<Sensor>();
+            this.DictsensorW = new Dictionary<string, int>();
 
         }
     }

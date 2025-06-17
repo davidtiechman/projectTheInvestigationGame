@@ -5,8 +5,8 @@
         static void Main(string[] args)
         {
             GameManiger gameManiger = new GameManiger();
-            gameManiger.Step1();
-
+            gameManiger.AgentInitialization(3);
+            gameManiger.Guessing();
 
 
         }
