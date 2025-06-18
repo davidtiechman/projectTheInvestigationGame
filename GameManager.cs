@@ -16,18 +16,29 @@ namespace projectTheInvestigationGame
             Player player = new Player(1);
             AgentInitialization(agent,2);
             bool succes = false;
-            while (!succes)
-              succes =  Guessing(agent, player, 2);
+            int numattempts = 0;
+            while (!succes && numattempts <10)
+            {
+                numattempts++;
+                succes = Guessing(agent, player, 2);
+            }
+         Console.WriteLine(player.NumAttempts);
+
         }
         public void Step2()
         {
             Agent agent = new Agent(2, "");
             Player player = new Player(2);
-            AgentInitialization(agent,3);
+            AgentInitialization(agent, 3);
             bool success = false;
-            while (!success)
-                success = Guessing(agent, player,3);
+            int numattempts = 0;
+            while (!success && numattempts < 10)
+            {
+                numattempts++;
+                success = Guessing(agent, player, 3);
+            }
         }
+
         public void AgentInitialization(Agent agent,int sum)
         {
             for (int i = 0; i < sum; i++)
@@ -55,20 +66,23 @@ namespace projectTheInvestigationGame
         {
             bool success = false;
             player.ListsensorP.Clear();
-            Console.WriteLine($"Please select an option (1-{sum})");
-            int option = 0;
+            
+                Console.WriteLine($"Please select an option (1-{sum})");
+                int option = 0;
             for (int i = 0; i < sum; i++)
             {
                 option++;
                 Console.WriteLine($"Please enter an option {option}");
                 string inputoption = Console.ReadLine();
-                player.ListsensorP.Add(CheckOption(inputoption));
+                player.ListsensorP.Add(CheckOption(player, inputoption));    
             }
+            
             success = PrintResult(agent, player);
             return success;
         }
-        public Sensor CheckOption(string num)
+        public Sensor CheckOption(Player player, string num)
         {
+            int numattempts = 3;
             string option = "";
 ;            switch (num)
             {
@@ -82,7 +96,23 @@ namespace projectTheInvestigationGame
                     option = "video";
                   break;
                 case "4":
-                    option = "pulse";
+                    if (player.NumAttempts < 4)
+                    {
+                        numattempts -= 1;
+                        Console.Write("The number of attempts you have left for the pulse sensor is ");
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine(numattempts);
+                        Console.ResetColor();
+                        option = "pulse";
+                    } 
+                    
+                    else if(player.NumAttempts >= 4)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine($"It is not possible to test the pulse sensor type. Please select a different sensor type..");
+                        Console.ResetColor(); 
+                        option = null;
+                    }
 
                     break;
             }
@@ -113,11 +143,16 @@ namespace projectTheInvestigationGame
             
             int count = 0;
             foreach (Sensor s in player.ListsensorP)
-            {
-                if (s.Activate(agent.DictsensorW) == true)
-                {
-                    count++;
-                }
+             {
+                    if (s.Activate(agent.DictsensorW) == true)
+                    {
+                        count++;
+                    if (s.Type == "pulse")
+                    {
+                        player.NumAttempts++;
+                    }
+                    }
+
             }
             string TypeSuccess = (count == agent.ListSentorsW.Count) ? "Very nice" : (count >= 1 ? "Beautiful" : "Oops");
             string SuccessStatus = (count == agent.ListSentorsW.Count) ? "Complete success" : (count >= 1 ? "Partial success" : "Failed to succeed");
