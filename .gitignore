@@ -1,1 +1,36 @@
+## Visual Studio
 .vs/
+*.user
+*.suo
+
+## Build
+bin/
+obj/
+*.dll
+*.exe
+*.pdb
+*.cache
+*.log
+
+## VS Code
+.vscode/
+
+## NuGet
+*.nupkg
+packages/
+project.lock.json
+
+## Rider
+.idea/
+*.sln.iml
+
+## Publish
+Properties/PublishProfiles/
+
+## Others
+TestResults/
+*.dbmdl
+Generated_Code/
+*.tmp
+*.DS_Store
+Thumbs.db
