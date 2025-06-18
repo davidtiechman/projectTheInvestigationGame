@@ -19,7 +19,7 @@ namespace projectTheInvestigationGame
             this.Type = type;
         }
 
-        public bool Activate(Dictionary<string,int> dictsensor)
+        public virtual bool  Activate(Dictionary<string,int> dictsensor)
         {
             bool exist = false;
             foreach (string key in dictsensor.Keys)

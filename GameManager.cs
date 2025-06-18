@@ -9,7 +9,7 @@ namespace projectTheInvestigationGame
     internal class GameManager
     {
         Random random = new Random();
-        string[] sensors = new string[] { "basic", "audio", "video" };
+        string[] sensors = new string[] { "basic", "audio", "video","pulse" };
         public void Step1()
         {
             Agent agent = new Agent(1,"");
@@ -19,19 +19,30 @@ namespace projectTheInvestigationGame
             while (!succes)
               succes =  Guessing(agent, player, 2);
         }
-        //public void Step2(Agent agent, int sum,Player player)
-        //{
-            //AgentIn itialization(agent, sum);
-            //Guessing(agent,player, sum);
-        //}
+        public void Step2()
+        {
+            Agent agent = new Agent(2, "");
+            Player player = new Player(2);
+            AgentInitialization(agent,3);
+            bool success = false;
+            while (!success)
+                success = Guessing(agent, player,3);
+        }
         public void AgentInitialization(Agent agent,int sum)
         {
             for (int i = 0; i < sum; i++)
             {
-                Sensor sensor = new Sensor(sensors[random.Next(0, 3)]);
+                if (agent.Id == 1)
+                {
+                    Sensor sensor = new Sensor(sensors[random.Next(0, 3)]);
+                    agent.ListSentorsW.Add(sensor);
+                }
+                else if (agent.Id == 2)
+                {
+                    PulseSensor plusSensor = new PulseSensor(sensors[random.Next(0, 4)]);
+                    agent.ListSentorsW.Add(plusSensor);
 
-                agent.ListSentorsW.Add(sensor);
-                
+                }
             }
             agent.DictsensorW = ConvertArrtoDict(agent.ListSentorsW);
             foreach (Sensor s in agent.ListSentorsW)
@@ -69,7 +80,11 @@ namespace projectTheInvestigationGame
                     break;
                 case "3":
                     option = "video";
-                  break;     
+                  break;
+                case "4":
+                    option = "pulse";
+
+                    break;
             }
             Sensor sensor = new Sensor(option);
             return sensor;
@@ -95,6 +110,7 @@ namespace projectTheInvestigationGame
         public bool PrintResult(Agent agent,Player player)
         {
             bool success = false;
+            
             int count = 0;
             foreach (Sensor s in player.ListsensorP)
             {
