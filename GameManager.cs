@@ -43,7 +43,7 @@ namespace projectTheInvestigationGame
         public bool Guessing(Agent agent,Player player, int sum)
         {
             bool success = false;
-
+            player.ListsensorP.Clear();
             Console.WriteLine($"Please select an option (1-{sum})");
             int option = 0;
             for (int i = 0; i < sum; i++)
@@ -121,6 +121,7 @@ namespace projectTheInvestigationGame
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine(Exposed);
                 Console.ResetColor();  // מחזיר את הצבע הרגיל של הקונסול
+                agent.DictsensorW = ConvertArrtoDict(agent.ListSentorsW);
             }
             return success;
         }
